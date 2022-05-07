@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <h1 class="text-center mt-3 mb-3">Karra jadvali</h1>
+    <div class="border border-dark p-3 m-3">
+      <div id="karra_jadval"></div>
+    </div>
+
+    <script>
+      let jadval = document.getElementById("karra_jadval");
+      let container = `<div class="container-fluid">`;
+
+      for (let i = 1; i <= 10; i++) {
+        let row = "";
+        if (i === 1 || i === 6) {
+          row += `<div class="row">`;
+        }
+
+        row += `<div class="col">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col" class="text-center" colspan="5">${i}</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+        for (let j = 1; j <= 10; j++) {
+          row += `<tr>
+                <td>${i}</td>
+                <td>*</td>
+                <td>${j}</td>
+                <td>=</td>
+                <td>${i * j}</td>
+              </tr>`;
+        }
+
+        if (i === 5) {
+          row += `</tbody> </table> </div> </div>`;
+        } else {
+          row += ` </tbody> </table> </div>`;
+        }
+        container += row;
+      }
+
+      jadval.innerHTML = container;
+    </script>
+  </body>
+</html>
