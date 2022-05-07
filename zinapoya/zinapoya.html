@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #odam {
+        position: absolute;
+        height: 80px;
+        width: 40px;
+        top: 480px;
+        background-image: url("./odam.png");
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" height="650" width="1024" style="transition: all 1s">
+    </canvas>
+    <div id="odam"></div>
+    <button onclick="qadamBos()">yur</button>
+    <button onclick="toxta()">toxta</button>
+    <button onclick="boshidan()">boshidan</button>
+    <script>
+      let x = 100;
+      let y = 550;
+      let zina = prompt("Zinapoya sonini kiriting");
+      let interval = prompt("Bir qadamda necha zinapoya bosilsin?");
+
+      zina = parseInt(zina);
+      interval = parseInt(interval);
+
+      let qadam = 0;
+      let shotchik = 0;
+
+      while (qadam < zina) {
+        qadam += interval;
+        shotchik++;
+        if (qadam < zina) {
+          document.write(qadam + " ");
+        }
+      }
+      shotchik--;
+
+      if (qadam >= zina) {
+        shotchik++;
+        document.write(zina);
+      }
+
+      function wrapIntoSpan(xPos, yPos, data) {
+        document.write(
+          `<span style="position:absolute; top: ${yPos + 20}px; left: ${
+            xPos + 30
+          }px"> ${data} </span>`
+        );
+      }
+      function drawLine(ctx, begin, end, stroke = "black", width = 1.5) {
+        if (stroke) {
+          ctx.strokeStyle = stroke;
+        }
+
+        if (width) {
+          ctx.lineWidth = width;
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(...begin);
+        ctx.lineTo(...end);
+        ctx.stroke();
+      }
+
+      const canvas = document.querySelector("#canvas");
+      const odam = document.getElementById("odam");
+      let stepTimeout;
+
+      let stepNum = 1;
+      let tezlik = 10;
+      let farqi = 80;
+      let odamY = 600 - farqi / 2;
+      function boshidan() {
+        stepNum = 1;
+        odamY = 600 - farqi / 2;
+        odam.style.top = `${480}px`;
+        qadamBos();
+      }
+      function qadamBos() {
+        let ongTomon = stepNum * 5;
+        console.log(stepNum);
+        odam.style.backgroundPositionX = `${-45.5 * stepNum}px`;
+        odam.style.transform = `translateX(${ongTomon}px)`;
+        if (ongTomon > 100) {
+          odam.style.top = `${odamY}px`;
+        }
+        if (odamY > y - farqi + 10) {
+          odamY = odamY - 5;
+        }
+        if (ongTomon > x + farqi) {
+          toxta();
+          return;
+        }
+
+        stepNum = stepNum + 1;
+        stepTimeout = setTimeout(qadamBos, 750 / tezlik);
+      }
+      function toxta() {
+        clearTimeout(stepTimeout);
+      }
+
+      if (canvas.getContext) {
+        let size = 40;
+        let i;
+        const ctx = canvas.getContext("2d");
+        //odam.style = `top: ${y - 70}px; left:10px`;
+
+        for (i = 0; i < zina; i++) {
+          if (!i) {
+            drawLine(ctx, [x - 100, y], [x + size, y]);
+          } else {
+            drawLine(ctx, [x, y], [x + size, y]);
+            wrapIntoSpan(x, y, i);
+          }
+
+          drawLine(ctx, [x + size, y], [x + size, y - size]);
+          x += size;
+          y -= size;
+        }
+        drawLine(ctx, [x, y], [x + 150, y]);
+        wrapIntoSpan(x, y, i);
+      }
+    </script>
+  </body>
+</html>
