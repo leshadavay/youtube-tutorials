@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      let i = 1;
+
+      //1 dan 100 gacha
+      while (i <= 100) {
+        //agar 3 ga ham 5 ga ham bolinsa
+        if (i % 3 == 0 && i % 5 == 0) {
+          document.write(i + " FizzBuzz <br>");
+        }
+        //yoki agar 3 ga bolinsa
+        else if (i % 3 == 0) {
+          document.write(i + " Fizz <br>");
+        }
+        //yoki agar 5 ga bolinsa
+        else if (i % 5 == 0) {
+          document.write(i + " Buzz <br>");
+        }
+        i++;
+      }
+    </script>
+  </body>
+</html>
