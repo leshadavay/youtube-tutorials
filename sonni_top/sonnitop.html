@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      let son = 10;
+      let i = 1;
+
+      //while cheksiz
+      while (true) {
+        let p = prompt("Sonni toping (1 dan 100 gacha)");
+
+        //data validation
+        //agar p pustoy bosa
+        if (!p.trim()) {
+          alert("pustoy yozdingiz");
+        }
+
+        //not operator
+        //yoki agar p raqam bomasa
+        else if (!isFinite(p)) {
+          alert("faqat raqamni kiriting");
+        }
+        //aks holda
+        else {
+          p = parseInt(p);
+
+          if (p < son) {
+            alert("kattaroq sonni kiriting");
+          }
+          if (p > son) {
+            alert("kichikroq sonni kiriting");
+          }
+
+          if (p === son) {
+            alert("malades topdingiz");
+            document.write("siz " + i + " urinishda topdingiz: " + son);
+            break;
+          }
+        }
+
+        i++;
+      }
+    </script>
+  </body>
+</html>
