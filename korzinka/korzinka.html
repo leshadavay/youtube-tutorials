@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.css"
+    />
+    <script src="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.js"></script>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="row">
+        <div class="col-md-8 cart">
+          <div class="title">
+            <div class="row">
+              <div class="col">
+                <h4><b>Korzinka</b></h4>
+              </div>
+              <div
+                class="col align-self-center text-right text-muted total-items"
+              ></div>
+            </div>
+          </div>
+          <div id="all-products"></div>
+        </div>
+        <div class="col-md-4 summary">
+          <div>
+            <h5><b>Mening buyurmam</b></h5>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col total-items" style="padding-left: 0"></div>
+            <div class="col text-right" id="sub-total-price"></div>
+          </div>
+          <form>
+            <p>Dostavka</p>
+            <select id="dostavka" onchange="onChangeDostavka()">
+              <option class="text-muted" value="5.00">
+                Standard-Dostavka $5.00
+              </option>
+              <option class="text-muted" value="8.00">
+                Super-Dostavka $8.00
+              </option>
+            </select>
+          </form>
+          <div
+            class="row"
+            style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+          >
+            <div class="col">BARCHASI</div>
+            <div class="col text-right" id="total-price"></div>
+          </div>
+          <button class="btn" onclick="makeOrder()">Buyurtma berish</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      //sahifa zagruzka tugagandan song
+      $(function () {
+        SlickLoader.enable();
+        window
+          .fetch("https://fakestoreapi.com/products")
+          .then((result) => result.json())
+          .then((products) => {
+            console.log("products: ", products);
+
+            sessionStorage.setItem("products", JSON.stringify(products));
+
+            renderProducts();
+            calcTotalItems();
+            calcTotalPrice();
+            SlickLoader.disable();
+          });
+      });
+
+      //barcha tovarlarni ekrancha chop et
+      function renderProducts() {
+        let products = JSON.parse(sessionStorage.getItem("products"));
+        let allProductsElement = $("#all-products");
+        let html = "";
+        for (let product of products) {
+          if (product === null) {
+            continue;
+          }
+          html += `
+            <div class="row border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2">
+                    <img class="img-fluid" src="${product.image}" />
+                    </div>
+                    <div class="col">
+                    <div class="row text-muted">${product.category}</div>
+                    <div class="row">${product.title}</div>
+                    </div>
+                    <div class="col">
+                    <a href="#">-</a>
+                    <a href="#" class="border">
+                        1
+                    </a>
+                    <a href="#">+</a>
+                    </div>
+                    <div class="col">
+                    $${product.price} <span class="close" style="cursor:pointer" 
+                    onclick="deleteProduct(${product.id})"
+                    >&#10005;</span>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        allProductsElement.html(html);
+      }
+
+      //nechta tovar borligini chiqar
+      function calcTotalItems() {
+        let totalItemsElement = $(".total-items");
+
+        let products = JSON.parse(sessionStorage.getItem("products"));
+        totalItemsElement.html(`${products.length} TOVAR`);
+      }
+
+      //barcha tovarlarning obshi summasi
+      function calcTotalPrice() {
+        let subTotalPriceElement = $("#sub-total-price");
+        let totalPriceElement = $("#total-price");
+        let dostavkaNarxi = parseFloat($("#dostavka").find(":selected").val());
+        let products = JSON.parse(sessionStorage.getItem("products"));
+        let subTotalPrice = 0;
+
+        for (let product of products) {
+          subTotalPrice += product.price;
+        }
+
+        //dostavkasiz narxi
+        subTotalPriceElement.html(`$ ${subTotalPrice.toFixed(2)}`);
+
+        //dostavka bilan obshi narxi
+        totalPriceElement.html(
+          `$ ${(subTotalPrice + dostavkaNarxi).toFixed(2)}`
+        );
+      }
+
+      //dostavka tanlanganda
+      function onChangeDostavka() {
+        calcTotalPrice();
+      }
+
+      //tanlangan tovarni o'chirish
+      function deleteProduct(productId) {
+        if (!confirm("Rostdan ham ochirmoqchimisiz?")) {
+          return;
+        }
+        SlickLoader.enable();
+        setTimeout(function () {
+          let products = JSON.parse(sessionStorage.getItem("products"));
+          let productsUpdated = [];
+
+          for (let product of products) {
+            if (product.id !== productId) {
+              productsUpdated.push(product);
+            }
+          }
+
+          sessionStorage.setItem("products", JSON.stringify(productsUpdated));
+          toastr.success("Xabar", "Tovar muvaffaqiyatli o'chirildi");
+          renderProducts();
+          calcTotalItems();
+          calcTotalPrice();
+          SlickLoader.disable();
+        }, 1000);
+      }
+
+      //buyurtma berish
+      function makeOrder() {
+        toastr.success("Xabar", "Buyurtmangiz qabul qilindi");
+      }
+    </script>
+  </body>
+</html>
