@@ -88,13 +88,17 @@ INSERT INTO `orders` VALUES (1,6,'2023-01-30',1,NULL,NULL,NULL);
 INSERT INTO `orders` VALUES (2,7,'2022-08-02',2,NULL,'2022-08-03',4);
 INSERT INTO `orders` VALUES (3,8,'2021-12-01',1,NULL,NULL,NULL);
 INSERT INTO `orders` VALUES (4,2,'2023-01-22',1,NULL,NULL,NULL);
-INSERT INTO `orders` VALUES (5,5,'2021-08-25',2,'','2021-08-26',3);
-INSERT INTO `orders` VALUES (6,10,'2022-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL);
-INSERT INTO `orders` VALUES (7,2,'2021-09-22',2,NULL,'2021-09-23',4);
-INSERT INTO `orders` VALUES (8,5,'2021-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL);
-INSERT INTO `orders` VALUES (9,10,'2022-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2022-07-06',1);
-INSERT INTO `orders` VALUES (10,6,'2023-04-22',2,NULL,'2023-04-23',2);
-
+INSERT INTO `orders` VALUES (5,2,'2023-01-22',1,NULL,NULL,NULL);
+INSERT INTO `orders` VALUES (6,5,'2021-08-25',2,'','2021-08-26',3);
+INSERT INTO `orders` VALUES (7,10,'2022-11-18',1,'Aliquam erat volutpat. In congue.',NULL,NULL);
+INSERT INTO `orders` VALUES (8,2,'2021-09-22',2,NULL,'2021-09-23',4);
+INSERT INTO `orders` VALUES (9,7,'2021-09-22',2,'Great!','2021-09-24',4);
+INSERT INTO `orders` VALUES (10,5,'2021-06-08',1,'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.',NULL,NULL);
+INSERT INTO `orders` VALUES (11,10,'2022-07-05',2,'Nulla mollis molestie lorem. Quisque ut erat.','2022-07-06',1);
+INSERT INTO `orders` VALUES (12,6,'2023-04-22',2,NULL,'2023-04-23',2);
+INSERT INTO `orders` VALUES (13,2,'2023-06-22',1,NULL,NULL,NULL);
+INSERT INTO `orders` VALUES (14,4,'2023-06-22',1,NULL,NULL,NULL);
+INSERT INTO `orders` VALUES (15,2,'2023-06-22',1,NULL,NULL,NULL);
 
 CREATE TABLE `order_items` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
